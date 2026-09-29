@@ -13,6 +13,7 @@ import FomoBanner from '@/components/FomoBanner';
 import PageStyles from '@/components/PageStyles';
 import StickyWhatsApp from '@/components/StickyWhatsApp';
 import FinalCta from '@/components/sections/FinalCta';
+import { withSeoOverride } from '@/lib/webcoreSeo';
 
 const PATH = `/${siteConfig.productSlug}`;
 
@@ -27,7 +28,7 @@ export async function generateMetadata({
     routing.locales.map((l) => [l, `${localeHref(l)}${PATH}`]),
   );
   languages['x-default'] = `${localeHref(routing.defaultLocale)}${PATH}`;
-  return {
+  return withSeoOverride(locale, PATH, {
     title: t('title'),
     description: t('description'),
     alternates: { canonical: `${localeHref(locale)}${PATH}`, languages },
@@ -40,7 +41,7 @@ export async function generateMetadata({
       images: ogImages(locale),
     },
     twitter: { card: 'summary_large_image', images: ogImages(locale) },
-  };
+  });
 }
 
 export default async function CoverageIndex({

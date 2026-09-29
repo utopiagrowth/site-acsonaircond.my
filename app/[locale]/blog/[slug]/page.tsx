@@ -18,6 +18,7 @@ import SiteFooter from '@/components/SiteFooter';
 import FomoBanner from '@/components/FomoBanner';
 import PageStyles from '@/components/PageStyles';
 import StickyWhatsApp from '@/components/StickyWhatsApp';
+import { withSeoOverride } from '@/lib/webcoreSeo';
 
 export async function generateStaticParams() {
   const slugs = await getBlogPostSlugs();
@@ -43,7 +44,7 @@ export async function generateMetadata({
   const images = post.cover_image_url
     ? [{ url: post.cover_image_url, width: 1200, height: 630 }]
     : ogImages(locale);
-  return {
+  return withSeoOverride(locale, path, {
     title: tr.meta_title || `${tr.title} | ${siteConfig.brandName}`,
     description: tr.meta_description || tr.excerpt,
     alternates: { canonical: `${localeHref(locale)}${path}`, languages },
@@ -57,7 +58,7 @@ export async function generateMetadata({
       publishedTime: post.published_at,
     },
     twitter: { card: 'summary_large_image', images },
-  };
+  });
 }
 
 export default async function BlogPostPage({
