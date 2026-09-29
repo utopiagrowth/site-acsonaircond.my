@@ -29,6 +29,7 @@ import Reviews from '@/components/sections/Reviews';
 import CoverageSection from '@/components/sections/CoverageSection';
 import FaqSection from '@/components/sections/FaqSection';
 import FinalCta from '@/components/sections/FinalCta';
+import { withSeoOverride } from '@/lib/webcoreSeo';
 
 const HERO_CHIP_TARGETS = ['#produk', '#servis', '#sewa-beli'];
 
@@ -43,7 +44,7 @@ export async function generateMetadata({
     routing.locales.map((l) => [l, localeHref(l)]),
   );
   languages['x-default'] = localeHref(routing.defaultLocale);
-  return {
+  return withSeoOverride(locale, '', {
     title: t('title'),
     description: t('description'),
     alternates: { canonical: localeHref(locale), languages },
@@ -56,7 +57,7 @@ export async function generateMetadata({
       images: ogImages(locale),
     },
     twitter: { card: 'summary_large_image', images: ogImages(locale) },
-  };
+  });
 }
 
 export default async function HomePage({

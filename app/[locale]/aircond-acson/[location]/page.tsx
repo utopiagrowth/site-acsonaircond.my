@@ -32,6 +32,7 @@ import TeamSection from '@/components/sections/TeamSection';
 import Reviews from '@/components/sections/Reviews';
 import FaqSection from '@/components/sections/FaqSection';
 import FinalCta from '@/components/sections/FinalCta';
+import { withSeoOverride } from '@/lib/webcoreSeo';
 
 export function generateStaticParams() {
   return routing.locales.flatMap((locale) =>
@@ -54,7 +55,7 @@ export async function generateMetadata({
   );
   languages['x-default'] = `${localeHref(routing.defaultLocale)}${path}`;
   const vars = { location: loc.name, state: loc.state };
-  return {
+  return withSeoOverride(locale, path, {
     title: t('title', vars),
     description: t('description', vars),
     alternates: { canonical: `${localeHref(locale)}${path}`, languages },
@@ -67,7 +68,7 @@ export async function generateMetadata({
       images: ogImages(locale),
     },
     twitter: { card: 'summary_large_image', images: ogImages(locale) },
-  };
+  });
 }
 
 export default async function LocationPage({
