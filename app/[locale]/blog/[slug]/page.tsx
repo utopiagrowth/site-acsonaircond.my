@@ -18,6 +18,7 @@ import SiteFooter from '@/components/SiteFooter';
 import FomoBanner from '@/components/FomoBanner';
 import PageStyles from '@/components/PageStyles';
 import StickyWhatsApp from '@/components/StickyWhatsApp';
+import BlogLinkTracker from '@/components/tracking/BlogLinkTracker';
 import { withSeoOverride } from '@/lib/webcoreSeo';
 
 export async function generateStaticParams() {
@@ -161,7 +162,9 @@ export default async function BlogPostPage({
               <ul>
                 {recent.map((r) => (
                   <li key={r.slug}>
-                    <Link href={`/${locale}/blog/${r.slug}`}>{r.blog_translations[0]?.title}</Link>
+                    <BlogLinkTracker slug={r.slug} href={`/${locale}/blog/${r.slug}`}>
+                      {r.blog_translations[0]?.title}
+                    </BlogLinkTracker>
                   </li>
                 ))}
               </ul>
